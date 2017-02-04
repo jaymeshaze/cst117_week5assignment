@@ -26,6 +26,89 @@ namespace Exercise5_22
     {
         static void Main(string[] args)
         {
+            CoffeeVendingMachine testVend = new CoffeeVendingMachine();
+            testVend.Menu();
+            testVend.Insert(4, 0, 0);
+            testVend.Select();
+
+            CoffeeVendingMachine anotherTestVend = new CoffeeVendingMachine(5, 1.0);
+            anotherTestVend.Menu();
+            anotherTestVend.Insert(1, 1, 5);
+            anotherTestVend.Select();
+            anotherTestVend.Refund();
+        }
+    }
+
+    class CoffeeVendingMachine
+    {
+        private int coffeeCups = 0;
+        private double price = 0.0;
+        private double balance = 0.0;
+
+        //Default constructor that sets 10 cups for $.50 each
+        public CoffeeVendingMachine()
+        {
+            coffeeCups = 10;
+            price = .50;
+        }
+
+        //Constructor that sets amount of coffee cups and price
+        public CoffeeVendingMachine(int cups, double price)
+        {
+            this.coffeeCups = cups;
+            this.price = price;
+        }
+
+        //Displays to console the number of cups and price of each cup
+        public void Menu()
+        {
+            Console.WriteLine("Coffee cups: " + coffeeCups);
+            Console.WriteLine("Price per cup: " + price);
+        }
+
+        //Adds total of money inserted into balance of machine
+        public void Insert(int quarters, int dimes, int nickels)
+        {
+            double total = 0;
+
+            if (quarters > 0)
+            {
+                total += quarters * 0.25;
+            }
+            if(dimes > 0)
+            {
+                total += dimes * .10;
+            }
+            if(nickels > 0)
+            {
+                total += nickels * .05;
+            }
+
+            balance += total;
+            Console.WriteLine("You have inserted $" + total + ".");
+
+        }
+
+        //Checks to ensure sufficient balance, then dispenses coffee cup
+        public void Select()
+        {
+            if(balance >= price)
+            {
+                coffeeCups--;
+                balance -= price;
+                Console.WriteLine("Dispensed 1 coffee cup.");
+            }
+            else
+            {
+                Console.WriteLine("Insufficient Funds. Please insert more money.");
+            }
+        }
+
+        //Refunds balance, sets balance back to 0.00
+        public void Refund()
+        {
+            Console.WriteLine("$" + balance + " has been refunded.");
+            balance = 0.0;
         }
     }
 }
